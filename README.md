@@ -1,29 +1,12 @@
-# ReAgent: Point Cloud Registration using Imitation and Reinforcement Learning
-This repository implements the approach described in *ReAgent: Point Cloud Registration using Imitation and 
-Reinforcement Learning* ([CVPR 2021](https://openaccess.thecvf.com/content/CVPR2021/html/Bauer_ReAgent_Point_Cloud_Registration_Using_Imitation_and_Reinforcement_Learning_CVPR_2021_paper.html), [arXiv](https://arxiv.org/abs/2103.15231)).
-
-Also check our follow-up work on reinforced object pose refinement, [SporeAgent](https://github.com/dornik/sporeagent).
-
-![Iterative registration using ReAgent](resources/teaser-m40.png)
-
-_Iterative registration using ReAgent: The source point cloud (cyan) is aligned to the target point cloud (gray), 
-starting from an initial source (magenta). In each step, ReAgent follows policy **pi** given the current observation **O** by selecting
-the best action **a** per axis. Thereby, the registration is improved step-by-step until alignment._
-
-![Qualitative results on LINEMOD](resources/teaser-lm.png)
-
-_Application example: Object pose estimation on LINEMOD. The source point cloud is sampled within the segmentation mask 
-estimated by PoseCNN. The black box indicates the zoomed-in view used for the step-wise results. ReAgent (cyan) is 
-initialized using the pose estimate of PoseCNN (magenta). The ground-truth pose is shown in gray. ReAgent achieves a 
-highly accurate pose within a few steps._
+# R-PCR: Recurrent Point Cloud Registration Using High-Order Markov Decision
 
 ## Dependencies
-The code has been tested on Ubuntu 16.04 and 20.04 with Python 3.6 and CUDA 10.2. To set-up the Python environment, use 
+The code has been tested on Ubuntu 18.04 with Python 3.6 and CUDA 11.1. To set-up the Python environment, use 
 Anaconda and the provided YAML file:
 
-`conda env create -f environment.yml --name reagent`
+`conda env create -f environment.yml --name R_PCR`
 
-`conda activate reagent`.
+`conda activate R_PCR`.
 
 For experiments on the LINEMOD dataset, the [BOP Toolkit](https://github.com/thodan/bop_toolkit/tree/master/)
 is additionally required. The `BOP_PATH` in `config.py` needs to be changed to the respective clone directory and the
@@ -68,17 +51,6 @@ unzip lm_models.zip -d lm     # Unpacks to "lm".
 unzip lm_test_all.zip -d lm   # Unpacks to "lm". The training split is a subset.
 ```
 
-In addition, we have prepared point clouds sampled within the ground-truth masks (for training) and the segmentation 
-masks computed using PoseCNN [here](https://drive.google.com/drive/folders/1l1Qs_mW2a32yjC_4vg5kcHc4KxHrWnlX?usp=sharing) 
-(for evaluation). The latter also include the initial pose estimates from PoseCNN. Extract everything into 
-`PATH_TO_LM/reagent/` and set `LM_PATH` in `config.py` to the base directory, i.e., `PATH_TO_LM/..`. Finally, since the 
-BOP challenge uses a different train/test split than the compared methods, the appropriate target file found 
-[here](https://drive.google.com/drive/folders/1l1Qs_mW2a32yjC_4vg5kcHc4KxHrWnlX?usp=sharing) needs to be placed in the 
-`PATH_TO_LM` directory.
-
-### Pretrained models
-Weights for all datasets can be found [here](https://drive.google.com/drive/folders/1NyuwzIiJGyJsCkvEOnrziwrGN56uoTTj?usp=sharing). 
-Note that we use the same model for all experiments on ModelNet40 and ScanObjectNN.
 
 ## Training
 As just mentioned, for the experiments on ModelNet40 and ScanObjectNN, we train a single model on the first 20 
@@ -121,16 +93,9 @@ which can then be processed via
 In addition to the quantitative evaluation, we provide a visualization of the registration process for all datasets. Add 
 `--visualize` when running `eval.py` to show the point clouds (ModelNet40, ScanObjectNN) or object outlines (LINEMOD).
 
-## Citation
-If you use this repository in your publications, please cite
 
-```
-@article{bauer2021reagent,
-    title={ReAgent: Point Cloud Registration using Imitation and Reinforcement Learning},
-    author={Bauer, Dominik and Patten, Timothy and Vincze, Markus},
-    booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month={June},
-    year={2021},
-    pages={14586-14594}
-}
-```
+### Thanks
+Our work is based on *ReAgent: Point Cloud Registration using Imitation and 
+Reinforcement Learning* ([CVPR 2021](https://openaccess.thecvf.com/content/CVPR2021/html/Bauer_ReAgent_Point_Cloud_Registration_Using_Imitation_and_Reinforcement_Learning_CVPR_2021_paper.html), [arXiv](https://arxiv.org/abs/2103.15231)).
+
+
